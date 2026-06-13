@@ -1,0 +1,11 @@
+{
+  "name": "reviewer-backend",
+  "version": "1.0.0",
+  "description": "Vercel Serverless Function for AI Review Generator",
+  "scripts": {
+    "start": "vercel dev"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0"
+  }
+}

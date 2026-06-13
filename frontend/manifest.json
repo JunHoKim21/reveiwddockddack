@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "리뷰뚝딱 - AI 답글 생성기",
+  "version": "1.0.0",
+  "description": "드래그 앤 우클릭으로 고객 리뷰에 센스 있는 답글을 자동 생성합니다.",
+  "permissions": [
+    "contextMenus",
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "설정"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "css": ["content.css"],
+      "js": ["content.js"]
+    }
+  ]
+}

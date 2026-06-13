@@ -17,9 +17,8 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
             const tone = items.tone || "친절하게";
 
             try {
-                // Vercel API 호출 (임시 URL: 실제 배포 후 변경 필요)
-                // TODO: 배포 후 실제 Vercel URL로 변경하세요.
-                const apiUrl = 'https://your-vercel-app.vercel.app/api/generate'; 
+                // Vercel API 호출
+                const apiUrl = 'https://reveiwddockddack.vercel.app/api/generate'; 
 
                 const response = await fetch(apiUrl, {
                     method: 'POST',

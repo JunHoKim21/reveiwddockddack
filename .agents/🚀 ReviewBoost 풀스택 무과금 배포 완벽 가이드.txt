@@ -1,0 +1,59 @@
+🚀 ReviewBoost 풀스택 무과금 배포 완벽 가이드
+이 문서는 코드를 GitHub에 올리고 Vercel로 자동 배포한 뒤, 서비스 운영에 필수적인 백엔드(Supabase)와 AI(Gemini) 키를 세팅하는 전체 과정을 순서대로 정리한 가이드입니다.
+
+혼자서 유지보수하실 때 이 문서만 순서대로 따라 하시면 됩니다!
+
+단계 1: 소스 코드를 GitHub에 업로드(Push) 하기
+제가 보통 코드를 수정해 드리지만, 사장님께서 직접 코드를 수정하셨거나 백업하실 때는 아래 3개의 명령어를 터미널(VS Code 하단 등)에 순서대로 입력하세요.
+
+bash
+
+# 1. 변경된 모든 파일을 장바구니에 담기
+git add .
+# 2. 이번 변경 사항에 이름표(커밋 메시지) 붙이기
+git commit -m "수정 내용 메모"
+# 3. GitHub 서버로 최종 전송(업로드)하기
+git push origin main
+TIP
+
+위 명령어만 치면 Vercel이 GitHub의 변화를 알아채고 알아서 자동으로 배포(빌드)를 시작합니다. (수동 배포 불필요)
+
+단계 2: Vercel과 GitHub 연결하기 (최초 1회만)
+Vercel 홈페이지에 접속 후 GitHub 계정으로 로그인합니다.
+메인 화면 우측 상단의 [Add New...] 버튼을 누르고 **[Project]**를 선택합니다.
+방금 코드를 올렸던 사장님의 GitHub 레포지토리(ReviewBoost-)가 목록에 뜰 겁니다. 우측의 [Import] 버튼을 누릅니다.
+설정 화면이 나오면 아무것도 건드리지 말고 하단의 파란색 [Deploy] 버튼을 누릅니다.
+폭죽이 터지는 애니메이션과 함께 기초 배포가 완료됩니다! (이때는 DB와 AI가 안 붙은 껍데기 상태입니다)
+단계 3: Vercel에 마법의 키 4개 세팅하기 (환경 변수)
+기능(회원가입, AI 요약)이 작동하려면 Vercel에게 4개의 키(Key)를 알려주어야 합니다. Vercel 대시보드 상단 탭에서 [Settings] -> [Environment Variables] 로 들어갑니다.
+
+🔑 Supabase (데이터베이스 & 회원가입) 키 3개
+Supabase 대시보드에 로그인하여 ReviewBoost 프로젝트 설정 창으로 이동해 아래 3개를 찾아 복사합니다.
+
+DB 주소 (Project URL)
+Key: NEXT_PUBLIC_SUPABASE_URL
+Value: Data API 메뉴(또는 General 메뉴)에 있는 https://~~~~.supabase.co 주소
+공개용 키 (Publishable / Anon key)
+Key: NEXT_PUBLIC_SUPABASE_ANON_KEY
+Value: API Keys 메뉴에 있는 긴 텍스트
+관리자용 비밀 키 (Secret / Service Role key)
+Key: SUPABASE_SERVICE_ROLE_KEY
+Value: API Keys 메뉴 아래쪽의 Secret Key (눈 모양 아이콘을 눌러 보이게 한 후 복사)
+🧠 Google Gemini (무료 AI 요약) 키 1개
+Google AI Studio에 접속하여 키를 발급받습니다.
+
+제미나이 AI 키
+Key: GEMINI_API_KEY
+Value: 파란색 [Create API key] 버튼을 눌러 발급받은 AIzaSy... 로 시작하는 텍스트
+WARNING
+
+위 4세트의 Key 와 Value 를 Vercel 환경 변수 창에 각각 넣고 [Save] 를 총 4번 눌러주셔야 합니다. 공백이나 띄어쓰기가 들어가지 않게 주의하세요!
+
+단계 4: 최종 반영하기 (Redeploy)
+환경 변수(키 4개)를 저장했다고 해서 지금 떠 있는 웹사이트에 바로 적용되지는 않습니다. **새로고침(재배포)**을 해줘야 합니다.
+
+Vercel 상단 메뉴 탭에서 [Deployments] 를 클릭합니다.
+가장 맨 위에 있는 최신 배포 내역(보통 방금 막 배포된 내역)의 오른쪽 끝 점 3개(⋮) 버튼을 누릅니다.
+[Redeploy] 를 클릭합니다.
+초록색 동그라미(Ready)가 켜질 때까지 약 1~2분 기다립니다.
+끝입니다! 이제 배포된 도메인(주소)으로 들어가서 회원가입과 AI 요약 기능을 즐기시면 됩니다. 🎉

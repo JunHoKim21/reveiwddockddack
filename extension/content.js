@@ -67,19 +67,5 @@ function updateToast(toast, message, isError = false) {
   toast.style.backgroundColor = isError ? '#ef4444' : '#10b981';
 }
 
-// 우클릭 및 드래그 방지 해제 로직 (네이버 등에서 사용 가능하도록)
-document.addEventListener('contextmenu', function(e) { e.stopPropagation(); }, true);
-document.addEventListener('selectstart', function(e) { e.stopPropagation(); }, true);
-document.addEventListener('dragstart', function(e) { e.stopPropagation(); }, true);
-document.addEventListener('mousedown', function(e) { e.stopPropagation(); }, true);
-
-const enableSelectionStyle = document.createElement('style');
-enableSelectionStyle.textContent = `
-  * {
-    -webkit-user-select: text !important;
-    -moz-user-select: text !important;
-    -ms-user-select: text !important;
-    user-select: text !important;
-  }
-`;
-document.head.appendChild(enableSelectionStyle);
+// 글로벌하게 우클릭/드래그를 강제 해제하는 로직이 다른 웹사이트(메일 등)의 체크박스나 버튼 클릭을 방해하는 문제가 있어 제거합니다.
+// 대신, 사용자가 텍스트를 드래그할 수 있는 가장 안전한 수준의 CSS만 조심스럽게 적용하거나 단축키 기능을 활용하는 것이 좋습니다.

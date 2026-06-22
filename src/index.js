@@ -21,13 +21,13 @@ export default {
     }
 
     try {
-      const { reviewText, storeName, tone } = await request.json();
+      const { reviewText, storeName, tone, signature } = await request.json();
 
       let prompt = "";
       if (tone === "단호한 사이다") {
-        prompt = `너는 가게 사장님이야. 가게 이름은 [${storeName}]이야. 다음 고객의 리뷰(주로 진상/악성 리뷰)를 읽고, 감정을 섞지 말고 객관적 팩트 기반으로 단호하면서도 세련되게 논리를 반박하는 사이다 답글을 작성해줘. 무조건 사과하지 말고, 가게의 원칙을 명확히 설명해. 너무 길지 않게 핵심만 짚어서 전문가처럼 써줘. 리뷰 텍스트: ${reviewText}`;
+        prompt = `너는 가게 사장님이야. 가게 이름은 [${storeName}]이야. 다음 고객의 리뷰(주로 진상/악성 리뷰)를 읽고, 감정을 섞지 말고 객관적 팩트 기반으로 단호하면서도 세련되게 논리를 반박하는 사이다 답글을 작성해줘. 무조건 사과하지 말고, 가게의 원칙을 명확히 설명해. 사람들이 읽기 편하도록 너무 길지 않게 핵심만 3~4문장으로 팩트만 짚어서 짧게 써줘. 리뷰 텍스트: ${reviewText}`;
       } else {
-        prompt = `너는 가게 사장님이야. 가게 이름은 [${storeName}]이야. 다음 고객의 리뷰를 읽고 [${tone}] 톤으로 감사 답글을 작성해줘. 인사말, 리뷰 내용에 대한 공감, 재방문 유도 멘트를 포함해. 리뷰 텍스트: ${reviewText}`;
+        prompt = `너는 가게 사장님이야. 가게 이름은 [${storeName}]이야. 다음 고객의 리뷰를 읽고 [${tone}] 톤으로 감사 답글을 작성해줘. 인사말, 리뷰 내용에 대한 공감, 재방문 유도 멘트를 포함하되, 고객이 읽기 편하도록 핵심만 3~4문장으로 아주 짧고 간결하게 작성해줘. 리뷰 텍스트: ${reviewText}`;
       }
 
       // 깃허브 보안 필터를 우회하고 Cloudflare 환경변수 버그를 무시하기 위해 키를 쪼개서 조립합니다.
@@ -60,7 +60,12 @@ export default {
         throw new Error(data.error?.message || "Gemini API 호출에 실패했습니다.");
       }
 
-      const reply = data.candidates[0].content.parts[0].text;
+      let reply = data.candidates[0].content.parts[0].text;
+
+      // 옵션 B: 사장님 고정 서명이 있으면 AI 답변 맨 끝에 그대로 덧붙임
+      if (signature && signature.trim() !== "") {
+        reply = reply.trim() + "\n\n" + signature.trim();
+      }
 
       return new Response(JSON.stringify({ reply }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" }

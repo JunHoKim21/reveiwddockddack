@@ -11,13 +11,14 @@ async function handleReviewGeneration(reviewText) {
 
   try {
     const data = await new Promise((resolve) => {
-      chrome.storage.local.get(['storeName', 'tone', 'licenseKey'], resolve);
+      chrome.storage.local.get(['storeName', 'tone', 'signature', 'licenseKey'], resolve);
     });
 
     const payload = {
       reviewText: reviewText,
       storeName: data.storeName || '우리 가게',
-      tone: data.tone || '친절하게'
+      tone: data.tone || '친절하게',
+      signature: data.signature || ''
     };
 
     const response = await fetch(WORKER_URL, {

@@ -32,7 +32,7 @@ async function handleReviewGeneration(reviewText) {
       await navigator.clipboard.writeText(result.reply);
       updateToast(toast, '✅ 클립보드 복사 완료! (Ctrl+V)');
     } else {
-      updateToast(toast, '❌ 서버에서 응답을 받지 못했습니다.', true);
+      updateToast(toast, `❌ 에러: ${result.error || '서버 응답 없음'}`, true);
     }
   } catch (error) {
     updateToast(toast, '❌ 네트워크 오류가 발생했습니다.', true);

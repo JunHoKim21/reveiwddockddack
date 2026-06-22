@@ -26,7 +26,7 @@ export default {
       const prompt = `너는 가게 사장님이야. 가게 이름은 [${storeName}]이야. 다음 고객의 리뷰를 읽고 [${tone}] 톤으로 감사 답글을 작성해줘. 인사말, 리뷰 내용에 대한 공감, 재방문 유도 멘트를 포함해. 리뷰 텍스트: ${reviewText}`;
 
       // API 키를 환경변수에서 가져오도록 수정 (GitHub Push 방지)
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${env.GEMINI_API_KEY}`;
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${env.GEMINI_API_KEY}`;
 
       const geminiResponse = await fetch(url, {
         method: "POST",

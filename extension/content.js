@@ -9,13 +9,19 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 async function handleReviewGeneration(reviewText) {
   const toast = createToast('🤖 AI가 답글을 작성 중입니다...');
 
+  // 3,000자 초과 시 조용히 자르기 (Silent Truncation)
+  let processedText = reviewText;
+  if (processedText.length > 3000) {
+    processedText = processedText.substring(0, 3000) + "...(중략)";
+  }
+
   try {
     const data = await new Promise((resolve) => {
       chrome.storage.local.get(['storeName', 'tone', 'signature', 'licenseKey'], resolve);
     });
 
     const payload = {
-      reviewText: reviewText,
+      reviewText: processedText,
       storeName: data.storeName || '우리 가게',
       tone: data.tone || '친절하게',
       signature: data.signature || ''

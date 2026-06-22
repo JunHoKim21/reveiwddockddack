@@ -31,8 +31,8 @@ export default {
       const p3 = "RJw7ei-P3_VTT_g";
       const API_KEY = p1 + p2 + p3;
 
-      // 1.5 버전이 아닌 사장님 키에 맞는 최신 2.5 버전 사용!
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
+      // 2.5 버전의 트래픽 초과 문제를 해결하기 위해 가장 안정적인 3.5 버전 사용!
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${API_KEY}`;
 
       const geminiResponse = await fetch(url, {
         method: "POST",

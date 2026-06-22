@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "리뷰뚝딱",
+  "version": "1.0.0",
+  "description": "드래그 & 우클릭만으로 리뷰 답글을 AI로 자동 생성하여 클립보드에 복사해줍니다.",
+  "permissions": [
+    "contextMenus",
+    "storage",
+    "clipboardWrite",
+    "activeTab",
+    "scripting"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ]
+}

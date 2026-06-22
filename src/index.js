@@ -23,7 +23,12 @@ export default {
     try {
       const { reviewText, storeName, tone } = await request.json();
 
-      const prompt = `너는 가게 사장님이야. 가게 이름은 [${storeName}]이야. 다음 고객의 리뷰를 읽고 [${tone}] 톤으로 감사 답글을 작성해줘. 인사말, 리뷰 내용에 대한 공감, 재방문 유도 멘트를 포함해. 리뷰 텍스트: ${reviewText}`;
+      let prompt = "";
+      if (tone === "단호한 사이다") {
+        prompt = `너는 가게 사장님이야. 가게 이름은 [${storeName}]이야. 다음 고객의 리뷰(주로 진상/악성 리뷰)를 읽고, 감정을 섞지 말고 객관적 팩트 기반으로 단호하면서도 세련되게 논리를 반박하는 사이다 답글을 작성해줘. 무조건 사과하지 말고, 가게의 원칙을 명확히 설명해. 너무 길지 않게 핵심만 짚어서 전문가처럼 써줘. 리뷰 텍스트: ${reviewText}`;
+      } else {
+        prompt = `너는 가게 사장님이야. 가게 이름은 [${storeName}]이야. 다음 고객의 리뷰를 읽고 [${tone}] 톤으로 감사 답글을 작성해줘. 인사말, 리뷰 내용에 대한 공감, 재방문 유도 멘트를 포함해. 리뷰 텍스트: ${reviewText}`;
+      }
 
       // 깃허브 보안 필터를 우회하고 Cloudflare 환경변수 버그를 무시하기 위해 키를 쪼개서 조립합니다.
       const p1 = "AQ.Ab8RN6J_1DhuQyjM";

@@ -67,5 +67,22 @@ function updateToast(toast, message, isError = false) {
   toast.style.backgroundColor = isError ? '#ef4444' : '#10b981';
 }
 
-// 글로벌하게 우클릭/드래그를 강제 해제하는 로직이 다른 웹사이트(메일 등)의 체크박스나 버튼 클릭을 방해하는 문제가 있어 제거합니다.
-// 대신, 사용자가 텍스트를 드래그할 수 있는 가장 안전한 수준의 CSS만 조심스럽게 적용하거나 단축키 기능을 활용하는 것이 좋습니다.
+// 우클릭 및 드래그 방지 해제 로직 (체크박스 클릭을 방해하는 mousedown은 제외하고 안전하게 적용)
+document.addEventListener('selectstart', function(e) { e.stopPropagation(); }, true);
+document.addEventListener('dragstart', function(e) { e.stopPropagation(); }, true);
+document.addEventListener('contextmenu', function(e) { e.stopPropagation(); }, true);
+
+// 네이버 등 쇼핑몰에서만 텍스트 선택이 가능하도록 CSS를 주입합니다. (메일 등 다른 사이트 보호)
+const host = window.location.hostname;
+if (host.includes('naver.com') || host.includes('coupang') || host.includes('baemin')) {
+  const enableSelectionStyle = document.createElement('style');
+  enableSelectionStyle.textContent = `
+    body, div, p, span, li, td, th, a, strong, em, b, i {
+      -webkit-user-select: auto !important;
+      -moz-user-select: auto !important;
+      -ms-user-select: auto !important;
+      user-select: auto !important;
+    }
+  `;
+  document.head.appendChild(enableSelectionStyle);
+}
